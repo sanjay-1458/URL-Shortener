@@ -3,33 +3,36 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>URL Shortener</title>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <h1>URL Shortner</h1>
-    <form action="/shorten" method="POST">
-      <label for="longurl"> URL: </label>
-      <br />
-      <input
-        type="text"
-        name="longurl"
-        id="longurl"
-        placeholder="Enter the main URL"
-      />
-      <button type="submit">Shorten</button>
-    </form>
-    <br />
-    <form action="/redirect" method="GET">
-      <label for="shorturl"> Go to: </label>
-      <br />
-      <input
-        type="text"
-        name="shorturl"
-        id="shorturl"
-        placeholder="Enter the Short URL"
-      />
-      <button type="submit">Redirect</button>
-    </form>
-    <br />
+    <div class="container">
+      <h1>URL Shortener</h1>
+
+      <form action="/shorten" method="POST" class="form">
+        <label for="longurl">URL:</label>
+        <input
+          type="text"
+          name="longurl"
+          id="longurl"
+          placeholder="Enter the long URL"
+          required
+        />
+        <button type="submit">Shorten</button>
+      </form>
+
+      <form action="/redirect" method="GET" class="form">
+        <label for="shorturl">Go to:</label>
+        <input
+          type="text"
+          name="shorturl"
+          id="shorturl"
+          placeholder="Enter the short URL"
+          required
+        />
+        <button type="submit">Redirect</button>
+      </form>
+    </div>
   </body>
 </html>

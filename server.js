@@ -4,14 +4,28 @@ const { log } = require("console");
 const url = require("url");
 const path = require("path");
 const querystring = require("querystring");
-const {getShortCode} =require('./base62');
-const redis=require('./redisClient')
+const { getShortCode } = require("./base62");
+const redis = require("./redisClient");
 const PORT = 3000;
 
 const BASE_URL = "http://cat.ly";
 const EXPIRE_SECONDS = 60 * 60 * 24 * 7;
 
 const server = http.createServer(async (req, res) => {
+  if (req.url === "/style.css" && req.method === "GET") {
+    const cssPath = path.join(__dirname, "public", "style.css");
+    fs.readFile(cssPath, (err, cssData) => {
+      if (err) {
+        res.writeHead(500, { "Content-Type": "text/plain" });
+        res.end("Failed to load CSS");
+      } else {
+        res.writeHead(200, { "Content-Type": "text/css" });
+        res.end(cssData);
+      }
+    });
+    return;
+  }
+
   const parsedUrl = url.parse(req.url, true);
   const pathname = parsedUrl.pathname;
   const method = req.method;
@@ -107,14 +121,15 @@ const server = http.createServer(async (req, res) => {
       res.writeHead(200, { "Content-Type": "text/plain" });
       res.write(`URL: ${mainURL}`);
       res.end();
+      return;
     } else {
       res.writeHead(404, { "Content-Type": "text/plain" });
       res.end("Short URL not found or expired");
+      return;
     }
   }
   res.writeHead(404);
   res.end("Page Not Found");
-  return;
 });
 
 server.listen(PORT, () => {
